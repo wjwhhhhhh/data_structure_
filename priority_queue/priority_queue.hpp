@@ -30,6 +30,20 @@ namespace Eula
                     T&top();
                     void pop();
                     void push(const T&value) ;
+
+                    inline typename::std::vector<T>::iterator begin()
+                    {
+                        return Tree.begin();
+                    }
+                    inline  typename::std::vector<T>::iterator end()
+                    {
+                        return Tree.end();
+                    }
+                    size_t size()const;
+                    bool empty()const;
+                private:
+                    void up(int u);
+                    void down(int u);
                     inline int left(int x)const
                     {
                         return ((x << 1) + 1);
@@ -42,12 +56,7 @@ namespace Eula
                     {
                         return x-1>>1;
                     }
-                    void up(int u);
-                    void down(int u);
-                    size_t size()const;
-                    bool empty()const;
                     vector<T>Tree;//树上每个节点的值
-                private:
                 };
 
         template<typename T, class cmp>

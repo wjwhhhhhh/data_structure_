@@ -4,19 +4,13 @@ using namespace std;
 int main() {
     using namespace Eula::PriorityQueue;
     PriorityQueue<int>a;
-    int n,m;
-    cin>>n>>m;
-    for(int i=0;i<n;i++)
+
+    for(int i=0;i<10;i++)
     {
-        int tem;
-        cin>>tem;
+        int tem=i;
         a.push(tem);
     }
-    for(int i=0;i<m;i++)
-    {
-        cout<<a.top()<<endl;
-        a.pop();
-    }
+    for(auto c:a)cout<<c<<endl;
 
     return 0;
 }
