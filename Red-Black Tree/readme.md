@@ -15,4 +15,18 @@
 
 
 
-![img](https://img-blog.csdnimg.cn/img_convert/2cc1bdb32d7441dff8a1e94facc30a16.png)
+![img](https://pic3.zhimg.com/80/v2-85aeb7bb10b634c50479305ca1df85da_1440w.webp)
+
+__红黑树从根节点到每个叶子节点的路径都包含相同数量的黑色节点，因此从根节点到叶子节点的路径中包含的黑色节点数被称为树的“黑色高度（black-height）__
+
+！[link](https://zhuanlan.zhihu.com/p/91960960)
+！[link](https://zhuanlan.zhihu.com/p/79980618)
+
+
+# 删除
+！[link](https://zhuanlan.zhihu.com/p/166319823)
+__无论多复杂的情况，都可以转化为删除叶子节点，而删除红叶色节点不需要修改红黑树，而修改黑色叶子节点需要修改红黑树，因此我们重点讨论删除叶子
+节点是黑色的情况。__
+执行二叉查找树的删除操作
+
+

@@ -1,16 +1,8 @@
 #include <iostream>
-#include "priority_queue/priority_queue.hpp"
+#include "Red-Black Tree/RedBlackTree.hpp"
 using namespace std;
 int main() {
-    using namespace Eula::PriorityQueue;
-    PriorityQueue<int>a;
-
-    for(int i=0;i<10;i++)
-    {
-        int tem=i;
-        a.push(tem);
-    }
-    for(auto c:a)cout<<c<<endl;
-
+    using namespace Eula::RBTree;
+    RBTree<int,int> mp;
     return 0;
 }
