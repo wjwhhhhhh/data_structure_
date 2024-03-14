@@ -1,8 +1,10 @@
-#include <iostream>
-#include "Red-Black Tree/RedBlackTree.hpp"
-using namespace std;
+#include "list/list.hpp"
+using namespace Eula;
 int main() {
-    using namespace Eula::RBTree;
-    RBTree<int,int> mp;
+    List<int> a;
+    for(int i=0;i<5;i++)a.push_front(i);
+    a.show();
+    List<int>b(a);
+    b.show();
     return 0;
 }
