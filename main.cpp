@@ -1,9 +1,9 @@
-#include "list/list.hpp"
+#include "DoubleLIst/DoubleList.h"
 using namespace Eula;
 int main() {
-    List<int> a;
-    for(int i=0;i<15;i++)a.push_front(i);
-    List<int> b=a;
-    b.show();
+    DouList<int> a;
+    for(int i=0;i<5;i++)a.push_front(i);
+    a.erase(a.find(3));
+    a.show();
     return 0;
 }
