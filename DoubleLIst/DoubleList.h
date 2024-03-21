@@ -19,12 +19,15 @@ namespace Eula {
     using std::endl;
     template <class T>
     class DouList;
+    template <class T>
+    class ListPtr;
     template<class T>
     class ListNode
     {
 
     public:
         friend class DouList<T>;
+        friend class ListPtr<T>;
         ListNode()
         {
             data_=T();
@@ -47,17 +50,87 @@ namespace Eula {
         ListNode<T>* next_;
         ListNode<T>*front_;
     };
+    template <class T>
+    class ListPtr
+    {
+        using Node = ListNode<T>;
+        using UNode=std::unique_ptr<Node>;
+        using Ptr=ListPtr<T>;
+        public:
+        ListPtr()
+        {
+
+        }
+        ListPtr(Node *val):val_(val){
+        }
+
+        ~ListPtr()=default;
+        Ptr & operator++()
+        {
+            val_=val_->next_;
+            return *this;
+        }
+        Ptr operator++(int)
+        {
+            Ptr temp=*this;
+            ++(*this);
+            return temp;
+        }
+        Ptr &operator--()
+        {
+            val_=val_->front_;
+            return *this;
+        }
+        Ptr operator--(int)
+        {
+            Ptr temp=*this;
+            --(*this);
+            return temp;
+        }
+        T& operator *()
+        {
+            return (*val_).data_;
+        }
+        Node*operator->()
+        {
+            return val_;
+        }
+        bool operator==(const Ptr&tem)
+        {
+            return this->val_ == tem.val_;
+        }
+        bool operator!=(const Ptr&tem)
+        {
+            return !(*this==tem);
+        }
+        Node *get()
+        {
+            return val_;
+        }
+    private:
+        Node *val_;
+    };
     template<class T>
     class DouList {
         public:
         using Node = ListNode<T>;
         using UNode=std::unique_ptr<Node>;
-        DouList()
+        using Ptr=ListPtr<T>;
+        DouList(): begin_(new Node()), end_(new Node())
         {
-            begin_= new Node;
-            end_= new Node;
-            begin_->next_=end_;
-            end_->front_=begin_;
+            begin_->next_=end_.get();
+            end_->front_=begin_.get();
+        }
+        ~DouList()
+        {
+
+            Ptr p1=begin(),p2;
+            do {
+                p2=p1->next_;
+                delete p1.get();
+                p1=p2;
+            } while (p1!=end());
+            delete end().get();
         }
         void push_front(const T&val)
         {
@@ -67,17 +140,17 @@ namespace Eula {
         {
             insert_front(end_,val);
         }
-        void insert_front(Node * ing,const T&val)
+        void insert_front(Ptr ing,const T&val)
         {
             if(ing== nullptr)return ;
             auto tem=new Node(val);
             auto front=ing->front_;
             front->next_=tem;
-            tem->next_=ing;
+            tem->next_=ing.get();
             ing->front_=tem;
             tem->front_=front;
         }
-        void insert_back(Node*ing,const T&val)
+        void insert_back(Ptr ing,const T&val)
         {
             if(ing== nullptr)return ;
             auto tem=new Node(val);
@@ -85,12 +158,12 @@ namespace Eula {
             ing->next_=tem;
             tem->next_=back;
             back->front_=tem;
-            tem->front_=ing;
+            tem->front_=ing.get();
         }
-        Node* find(const T&val)
+        Ptr find(const T&val)
         {
-            auto tem=begin_->next_;
-            while(tem!=end_)
+            auto tem=begin();
+            while(tem!=end())
             {
                 if(tem->data_==val)return tem;
                 tem=tem->next_;
@@ -110,18 +183,28 @@ namespace Eula {
             }
             return ;
         }
-        void erase(Node* tem)
+        void erase(Ptr tem)
         {
             auto front=tem->front_;
             auto next=tem->next_;
             front->next_=next;
             next->front_=front;
-            delete tem;
+            delete tem.get();
+        }
+        Ptr begin()
+        {
+            auto tem=begin_;
+            tem++;
+            return tem;
+        }
+        Ptr end()
+        {
+            return end_;
         }
         void show()
         {
-            auto tem=begin_->next_;
-            while(tem!=end_)
+            auto tem=begin();
+            while(tem!=end())
             {
                 cout<<tem->data_<<endl;
                 tem=tem->next_;
@@ -129,8 +212,8 @@ namespace Eula {
             return ;
         }
         private:
-        Node* begin_;
-        Node* end_;
+        Ptr begin_;
+        Ptr end_;
     };
 }
 
